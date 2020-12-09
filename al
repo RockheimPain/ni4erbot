@@ -1,1 +1,1 @@
-print("ANTON - LOX")
+print("ANTON - LOX v kvadrate")
