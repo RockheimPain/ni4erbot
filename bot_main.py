@@ -15,22 +15,26 @@ def send_welcome(message):
 
 @bot.message_handler(content_types=['text'])
 def send_echo(message):
-    mgr = owm.weather_manager()
-    observation = mgr.weather_at_place( message.text )
-    w = observation.weather
-    temp = w.temperature('celsius')["temp"]
+    try:
+        mgr = owm.weather_manager()
+        observation = mgr.weather_at_place( message.text )
+        w = observation.weather
+        temp = w.temperature('celsius')["temp"]
 
-    answer = "В місті " + message.text + " зараз " + w.detailed_status	 + "\n"
-    answer += "Температура зараз близько " + str(temp) + "\n\n" 
+        answer = "В місті " + message.text + " зараз " + w.detailed_status	 + "\n"
+        answer += "Температура зараз близько " + str(temp) + "\n\n" 
 
-    if temp < 0:
-        answer += "Дубак с*ка! Зимову куртку і файні теплі ґачі на базу!"
-    elif temp < 10: 
-        answer += "Осіння куртка і теплий светрик в таку погоду стане чудовим вибором"
-    elif temp < 20:
-        answer += "Ну, хоча би кофточку напяль"
-    else:
-        answer += "Нормас: хоч в трусах топай"
-    bot.send_message(message.chat.id, answer)
+        if temp < 0:
+            answer += "Дубак с*ка! Зимову куртку і файні теплі ґачі на базу!"
+        elif temp < 10: 
+            answer += "Осіння куртка і теплий светрик в таку погоду стане чудовим вибором"
+        elif temp < 20:
+            answer += "Ну, хоча би кофточку напяль"
+        else:
+            answer += "Нормас: хоч в трусах топай"
+        bot.send_message(message.chat.id, answer)
+    
+    except pyowm.commons.exceptions.NotFoundError:
+    	bot.send_message(message.chat.id, "Введено не валідну назву міста")
 
 bot.polling( none_stop = True )
