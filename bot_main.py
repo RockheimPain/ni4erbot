@@ -15,11 +15,12 @@ def send_welcome(message):
 
 @bot.message_handler(content_types=['text'])
 def send_echo(message):
-    observation = owm.weather_at_place( message.text )
-    w = observation.get_weather()
-    temp = w.get_temperatuire('celsius')["temp"]
+    mgr = owm.weather_manager()
+    observation = mgr.weather_at_place( message.text )
+    w = observation.weather
+    temp = w.temperature('celsius')["temp"]
 
-    answer = "В місті " + message.text + " зараз " + w.get_detailed_status() + "\n"
+    answer = "В місті " + message.text + " зараз " + w.detailed_status	 + "\n"
     answer += "Температура зараз близько " + str(temp) + "\n\n" 
 
     if temp < 0:
@@ -33,4 +34,3 @@ def send_echo(message):
     bot.send_message(message.chat.id, answer)
 
 bot.polling( none_stop = True )
-
