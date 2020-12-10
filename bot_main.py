@@ -21,7 +21,7 @@ def send_echo(message):
         w = observation.weather
         temp = w.temperature('celsius')["temp"]
 
-        answer = "City: " + message.text + "\nWeather" + w.detailed_status	 + "\n"
+        answer = "City: " + message.text + "\nWeather: " + w.detailed_status	 + "\n"
         answer += "Temperature: " + str(temp) + "\n\n" 
 
         if temp < 0:
